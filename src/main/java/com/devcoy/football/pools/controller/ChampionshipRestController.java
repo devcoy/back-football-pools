@@ -1,11 +1,16 @@
 package com.devcoy.football.pools.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,8 +58,12 @@ public class ChampionshipRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Championship championship) {
+	public ResponseEntity<?> create(@Valid @RequestBody Championship championship, BindingResult result) {
 		Championship newChampionship = null;
+
+		if (result.hasErrors()) {
+			return validate(result);
+		}
 
 		try {
 			newChampionship = this.championshipService.save(championship);
@@ -67,10 +76,14 @@ public class ChampionshipRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Championship championship, @PathVariable Long id) {
+	public ResponseEntity<?> update(@Valid  @RequestBody Championship championship, BindingResult result, @PathVariable Long id) {
 		Championship updateChampionship = null;
 		Optional<Championship> championshipOpt = this.championshipService.findById(id);
 
+		if (result.hasErrors()) {
+			return validate(result);
+		}
+		
 		if (championshipOpt.isEmpty()) {
 			return HttpResponse.buildHttpResponse(TypeStatus.NOT_FOUND, championshipOpt);
 		}
@@ -90,15 +103,26 @@ public class ChampionshipRestController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) {
-		
+
 		Optional<Championship> championshipOpt = this.championshipService.findById(id);
-		
-		if(championshipOpt.isEmpty()) {
+
+		if (championshipOpt.isEmpty()) {
 			return HttpResponse.buildHttpResponse(TypeStatus.NOT_FOUND, championshipOpt);
 		}
-		
+
 		this.championshipService.delete(id);
 		return HttpResponse.buildHttpResponse(TypeStatus.DELETED, null);
+	}
+
+	// Method to valid
+	protected ResponseEntity<?> validate(BindingResult result) {
+		Map<String, Object> errors = new HashMap<String, Object>();
+
+		result.getFieldErrors().forEach(err -> {
+			errors.put(err.getField(), "El campo '" + err.getField() + "' " + err.getDefaultMessage());
+		});
+
+		return ExceptionResponse.buildHttpResponse(TypeException.VALIDATION, errors);
 	}
 
 }

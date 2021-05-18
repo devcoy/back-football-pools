@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "championships")
@@ -16,6 +19,8 @@ public class Championship implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+	@NotEmpty	
 	private String name;
 
 	public Long getId() {
