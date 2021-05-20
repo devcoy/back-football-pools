@@ -1,11 +1,16 @@
 package com.devcoy.football.pools.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +59,11 @@ public class SoccerDayRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody SoccerDay soccerDay) {
+	public ResponseEntity<?> create(@Valid @RequestBody SoccerDay soccerDay, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return validate(result);
+		}
 
 		SoccerDay newSoccerDay = null;
 
@@ -70,7 +79,11 @@ public class SoccerDayRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody SoccerDay soccerDay) {
+	public ResponseEntity<?> update(@Valid @PathVariable Long id, @RequestBody SoccerDay soccerDay, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return validate(result);
+		}
 
 		SoccerDay updateSoccerDay = null;
 		Optional<SoccerDay> soccerDayOpt = this.soccerDayService.findById(id);
@@ -102,7 +115,16 @@ public class SoccerDayRestController {
 		this.soccerDayService.delete(id);
 
 		return HttpResponse.buildHttpResponse(TypeStatus.DELETED, null);
-
 	}
 
+	// Method to valid
+	protected ResponseEntity<?> validate(BindingResult result) {
+		Map<String, Object> errors = new HashMap<String, Object>();
+
+		result.getFieldErrors().forEach(err -> {
+			errors.put(err.getField(), "El campo '" + err.getField() + "' " + err.getDefaultMessage());
+		});
+
+		return ExceptionResponse.buildHttpResponse(TypeException.VALIDATION, errors);
+	}
 }
