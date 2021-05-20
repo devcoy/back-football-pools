@@ -2,7 +2,9 @@ package com.devcoy.football.pools.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -33,15 +36,20 @@ public class SoccerDay implements Serializable {
 	private Date endDate;
 
 	/*
-	 * Está class (SoccerDay) es la dueña de la relación, esto lo sabemos porque tiene el "@JoinColumn",
+	 * Está class (SoccerDay) es la dueña de la relación, esto lo sabemos porque
+	 * tiene el "@JoinColumn",
 	 * 
 	 * @JsonIgnoreProperties: hace que no se una loop infinito, ya que cada examen
 	 * tendrá preguntas anidado
 	 */
-	@JsonIgnoreProperties(value = {"soccerDays", "hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties(value = { "soccerDays", "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "championship_id")
 	private Championship championship;
+
+	@JsonIgnoreProperties(value = { "soccerDay" }, allowSetters = true)
+	@OneToMany(mappedBy = "soccerDay", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Match> matches;
 
 	public Long getId() {
 		return id;
@@ -81,6 +89,26 @@ public class SoccerDay implements Serializable {
 
 	public void setChampionship(Championship championship) {
 		this.championship = championship;
+	}
+
+	public List<Match> getMatches() {
+		return matches;
+	}
+
+	public void setMatches(List<Match> matches) {
+		this.matches.clear();
+
+		this.matches.forEach(question -> this.addMatch(question));
+	}
+
+	public void addMatch(Match match) {
+		this.matches.add(match);
+		match.setSoccerDay(this);
+	}
+
+	public void removeMatch(Match match) {
+		this.matches.remove(match);
+		match.setSoccerDay(null);
 	}
 
 	@Override
