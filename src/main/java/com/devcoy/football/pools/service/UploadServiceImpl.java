@@ -34,7 +34,7 @@ public class UploadServiceImpl implements UploadService, Env {
 	@Override
 	public String save(MultipartFile file) throws IOException {
 
-		String fileName = UUID.randomUUID().toString() + file.getOriginalFilename().replace(" ", "_");
+		String fileName = UUID.randomUUID().toString();
 		Path filePath = getPath(fileName);
 
 		Files.copy(file.getInputStream(), filePath);
