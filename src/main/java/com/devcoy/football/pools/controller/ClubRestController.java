@@ -89,7 +89,7 @@ public class ClubRestController {
 		return HttpResponse.buildHttpResponse(TypeStatus.CREATED, newClub);
 	}
 
-	@PutMapping
+	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Club club) {
 		Club updateClub = null;
 		Optional<Club> clubOpt = this.clubService.findById(id);
@@ -108,7 +108,7 @@ public class ClubRestController {
 		return HttpResponse.buildHttpResponse(TypeStatus.UPDATED, updateClub);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Optional<Club> clubOpt = this.clubService.findById(id);
 
@@ -116,7 +116,7 @@ public class ClubRestController {
 			return HttpResponse.buildHttpResponse(TypeStatus.NOT_FOUND, null);
 		}
 
-		/* Comprobamos si el club tiene una img asignada */
+		// Comprobamos si el club tiene una img asignada
 		String imgNameDb = clubOpt.get().getImg();
 		this.uploadService.delete(imgNameDb);
 
@@ -141,10 +141,10 @@ public class ClubRestController {
 			try {
 				fileName = uploadService.save(file);
 			} catch (IOException e) {				
-				return ExceptionResponse.buildHttpResponse(TypeException.UPLOAD_FILE_EXCEPTION,  e.getMessage().concat(": ").concat(e.getCause().getMessage()))
+				return ExceptionResponse.buildHttpResponse(TypeException.UPLOAD_FILE_EXCEPTION,  e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			}
 
-			/* Comprobamos si el club tiene una img asignada */
+			// Comprobamos si el club tiene una img asignada
 			String imgNameDb = clubOpt.get().getImg();
 			this.uploadService.delete(imgNameDb);
 
