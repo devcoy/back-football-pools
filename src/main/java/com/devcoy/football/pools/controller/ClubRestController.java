@@ -137,11 +137,11 @@ public class ClubRestController {
 		if (!file.isEmpty()) {
 
 			String fileName = null;
-			
+
 			try {
 				fileName = uploadService.save(file);
-			} catch (IOException e) {				
-				return ExceptionResponse.buildHttpResponse(TypeException.UPLOAD_FILE_EXCEPTION,  e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			} catch (IOException e) {
+				return ExceptionResponse.buildHttpResponse(TypeException.UPLOAD_FILE_EXCEPTION, e);
 			}
 
 			// Comprobamos si el club tiene una img asignada
@@ -149,7 +149,7 @@ public class ClubRestController {
 			this.uploadService.delete(imgNameDb);
 
 			clubOpt.get().setImg(fileName);
-			this.clubService.save(clubOpt.get());	
+			this.clubService.save(clubOpt.get());
 		}
 		return HttpResponse.buildHttpResponse(TypeStatus.FILE_UPLOADED, clubOpt);
 	}
