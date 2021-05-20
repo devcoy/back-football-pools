@@ -56,10 +56,12 @@ public class ClubRestController {
 	}
 
 	@GetMapping
-	public Page<?> index(@PathVariable Integer page) {
+	public ResponseEntity<?> index(Pageable pageable) {
+		
+		Page<?> clubs = this.clubService.findAll(pageable);
 
-		Pageable pageable = PageRequest.of(page, 4);
-		return this.clubService.findAll(pageable);
+		//Pageable pageable = PageRequest.of(page, 4);
+		return HttpResponse.buildHttpResponse(TypeStatus.READED, clubs);
 	}
 
 	@GetMapping("/{id}")
