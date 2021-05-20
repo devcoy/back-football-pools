@@ -49,7 +49,7 @@ public class ClubRestController {
 		List<Club> clubs = this.clubService.findAll();
 
 		if (clubs.isEmpty()) {
-			HttpResponse.buildHttpResponse(TypeStatus.NO_CONTENT, clubs);
+			return HttpResponse.buildHttpResponse(TypeStatus.NO_CONTENT, null);
 		}
 
 		return HttpResponse.buildHttpResponse(TypeStatus.READED, clubs);
@@ -98,12 +98,15 @@ public class ClubRestController {
 			return HttpResponse.buildHttpResponse(TypeStatus.NOT_FOUND, null);
 		}
 
+		Club clubDb = clubOpt.get();
+		clubDb.setName(club.getName());
+		
 		try {
-			updateClub = this.clubService.save(club);
+			updateClub = this.clubService.save(clubDb);
 		} catch (DataAccessException e) {
 			return ExceptionResponse.buildHttpResponse(TypeException.DB_EXCEPTION,
 					e.getMessage().concat(": ").toUpperCase().concat(e.getMostSpecificCause().getMessage()));
-		}
+		}	
 
 		return HttpResponse.buildHttpResponse(TypeStatus.UPDATED, updateClub);
 	}
