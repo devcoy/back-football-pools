@@ -28,7 +28,13 @@ public class SoccerDay implements Serializable {
 
 	private Date endDate;
 
-	@JsonIgnoreProperties(value = "soccerDays")
+	/*
+	 * Está class (SoccerDay) es la dueña de la relación, esto lo sabemos porque tiene el "@JoinColumn",
+	 * 
+	 * @JsonIgnoreProperties: hace que no se una loop infinito, ya que cada examen
+	 * tendrá preguntas anidado
+	 */
+	@JsonIgnoreProperties(value = {"soccerDays", "hibernateLazyInitializer", "handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "championship_id")
 	private Championship championship;
