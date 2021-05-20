@@ -16,18 +16,23 @@ public class ExceptionResponse {
 
 		switch (typeException) {
 
-		case VALIDATION:
-			exceptionResponse.put("status", Exception.buidlHtppStatus(typeException));
-			exceptionResponse.put("erros", errors);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
-
-		case DB_EXCEPTION:
-			exceptionResponse.put("status", Exception.buidlHtppStatus(typeException));
-			exceptionResponse.put("erros", errors);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
-
-		default:
-			return null;
+			case VALIDATION:
+				exceptionResponse.put("status", Exception.buidlHtppStatus(typeException));
+				exceptionResponse.put("erros", errors);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+	
+			case DB_EXCEPTION:
+				exceptionResponse.put("status", Exception.buidlHtppStatus(typeException));
+				exceptionResponse.put("erros", errors);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
+	
+			case UPLOAD_FILE_EXCEPTION:
+				exceptionResponse.put("status", Exception.buidlHtppStatus(typeException));
+				exceptionResponse.put("erros", errors);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse);
+	
+			default:
+				return null;
 		}
 	}
 

@@ -38,6 +38,13 @@ public class Status implements HttpMessage {
 			httpStatus.put("code", 200);
 			httpStatus.put("message", HttpMessage.DELETED);
 			return httpStatus;
+			
+		case FILE_UPLOADED:
+			httpStatus.put("ok", true);
+			httpStatus.put("status", typeStatus);
+			httpStatus.put("code", 201);
+			httpStatus.put("message", HttpMessage.FILE_UPLOADED);
+			return httpStatus;
 
 		case OK:
 

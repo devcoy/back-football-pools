@@ -7,6 +7,7 @@ public interface HttpMessage {
 		public static final String READED = "Se han obtenido los registros correctamente.";
 		public static final String UPDATED = "Se ha actualizado el registro correctamente.";
 		public static final String DELETED = "Se ha eliminado el registro correctamente.";
+		public static final String FILE_UPLOADED = "El archivo se ha subido correctamente.";
 
 		// 2xx
 		public static final String OK = "La solicitud se ha realizado correctamente.";
