@@ -2,8 +2,12 @@ package com.devcoy.football.pools.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,10 +62,10 @@ public class ClubRestController {
 
 	@GetMapping
 	public ResponseEntity<?> index(Pageable pageable) {
-		
+
 		Page<?> clubs = this.clubService.findAll(pageable);
 
-		//Pageable pageable = PageRequest.of(page, 4);
+		// Pageable pageable = PageRequest.of(page, 4);
 		return HttpResponse.buildHttpResponse(TypeStatus.READED, clubs);
 	}
 
@@ -77,7 +82,11 @@ public class ClubRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Club club) {
+	public ResponseEntity<?> create(@Valid @RequestBody Club club, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return validate(result);
+		}
 
 		Club newClub = null;
 
@@ -92,7 +101,12 @@ public class ClubRestController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Club club) {
+	public ResponseEntity<?> update(@Valid @RequestBody Club club, BindingResult result, @PathVariable Long id) {
+
+		if (result.hasErrors()) {
+			return validate(result);
+		}
+
 		Club updateClub = null;
 		Optional<Club> clubOpt = this.clubService.findById(id);
 
@@ -102,13 +116,13 @@ public class ClubRestController {
 
 		Club clubDb = clubOpt.get();
 		clubDb.setName(club.getName());
-		
+
 		try {
 			updateClub = this.clubService.save(clubDb);
 		} catch (DataAccessException e) {
 			return ExceptionResponse.buildHttpResponse(TypeException.DB_EXCEPTION,
 					e.getMessage().concat(": ").toUpperCase().concat(e.getMostSpecificCause().getMessage()));
-		}	
+		}
 
 		return HttpResponse.buildHttpResponse(TypeStatus.UPDATED, updateClub);
 	}
@@ -176,4 +190,14 @@ public class ClubRestController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 
+	// Method to valid
+	protected ResponseEntity<?> validate(BindingResult result) {
+		Map<String, Object> errors = new HashMap<String, Object>();
+
+		result.getFieldErrors().forEach(err -> {
+			errors.put(err.getField(), "El campo '" + err.getField() + "' " + err.getDefaultMessage());
+		});
+
+		return ExceptionResponse.buildHttpResponse(TypeException.VALIDATION, errors);
+	}
 }
