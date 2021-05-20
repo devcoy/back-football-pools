@@ -35,6 +35,11 @@ public class HttpResponse {
 			httpResponse.put("status", Status.buidlHtppStatus(typeStatus));
 			httpResponse.put("data", data);
 			return ResponseEntity.status(HttpStatus.OK).body(httpResponse);
+			
+		case FILE_UPLOADED:
+			httpResponse.put("status", Status.buidlHtppStatus(typeStatus));
+			httpResponse.put("data", data);
+			return ResponseEntity.status(HttpStatus.CREATED).body(httpResponse);
 
 		case OK:
 			httpResponse.put("status", Status.buidlHtppStatus(typeStatus));

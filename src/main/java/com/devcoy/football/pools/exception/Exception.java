@@ -27,6 +27,14 @@ public class Exception implements ExceptionMessage {
 			httpStatus.put("message", DB_EXCEPTION);
 			return httpStatus;
 
+		case UPLOAD_FILE_EXCEPTION:
+
+			httpStatus.put("ok", false);
+			httpStatus.put("status", typeException);
+			httpStatus.put("code", 500);
+			httpStatus.put("message", UPLOAD_FILE_EXCEPTION);
+			return httpStatus;
+
 		default:
 			break;
 		}

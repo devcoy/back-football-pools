@@ -17,3 +17,13 @@ INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J2"
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J1", "2020-10-16T00:00:00.000-05:00", "2020-10-18T00:00:00.000-05:00", 3);
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J1", "2021-01-15T00:00:00.000-05:00", "2021-01-19T00:00:00.000-05:00", 4);
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J2", "2021-01-25T00:00:00.000-05:00", "2021-01-27T00:00:00.000-05:00", 4);
+
+// clubs
+
+INSERT INTO clubs(name) VALUES("Pumas UNAM");
+INSERT INTO clubs(name) VALUES("Atlas");
+INSERT INTO clubs(name) VALUES("Tigres UANL");
+INSERT INTO clubs(name) VALUES("Monterrey");
+INSERT INTO clubs(name) VALUES("Cruz Azul");
+INSERT INTO clubs(name) VALUES("Chivas");
+INSERT INTO clubs(name) VALUES("América");
