@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,15 +23,19 @@ public class Match implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@JsonIgnoreProperties(value = {"matches", "hibernateLazyInitializer", "handler"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "soccer_day_id")
 	private SoccerDay soccerDay;
 
+	@NotNull
 	private Club localClub;
 
+	@NotNull
 	private Club visitClub;
 
+	@NotNull
 	private Date datetime;
 
 	public Long getId() {
