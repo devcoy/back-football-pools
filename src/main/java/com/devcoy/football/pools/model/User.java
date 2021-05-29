@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -37,6 +38,8 @@ public class User implements Serializable {
 	 * ambas Entidades
 	 */
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	// Config de tabla intermedia
+		// @JoinTable(name = "users_roles", joinColumns = @JoinColu(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "role_id" }) })
 	private List<Role> roles;
 
 	private Boolean enabled;
