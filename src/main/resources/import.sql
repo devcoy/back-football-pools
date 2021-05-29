@@ -1,14 +1,11 @@
 // championships
-
 INSERT INTO championships(name) VALUES("AP-2019");
 INSERT INTO championships(name) VALUES("CL-2020");
 INSERT INTO championships(name) VALUES("AP-2020");
 INSERT INTO championships(name) VALUES("AP-2021");
 
 
-
 // Soccer days
-
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J1", "2019-08-15T00:00:00.000-05:00", "2019-08-18T00:00:00.000-05:00", 1);
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J2", "2019-08-25T00:00:00.000-05:00", "2019-08-26T00:00:00.000-05:00", 1);
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J3", "2019-09-03T00:00:00.000-05:00", "2019-09-06T00:00:00.000-05:00", 1);
@@ -19,7 +16,6 @@ INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J1"
 INSERT INTO soccer_days(name, start_date, end_date, championship_id) VALUES("J2", "2021-01-25T00:00:00.000-05:00", "2021-01-27T00:00:00.000-05:00", 4);
 
 // clubs
-
 INSERT INTO clubs(name) VALUES("Pumas UNAM");
 INSERT INTO clubs(name) VALUES("Atlas");
 INSERT INTO clubs(name) VALUES("Tigres UANL");
@@ -27,3 +23,20 @@ INSERT INTO clubs(name) VALUES("Monterrey");
 INSERT INTO clubs(name) VALUES("Cruz Azul");
 INSERT INTO clubs(name) VALUES("Chivas");
 INSERT INTO clubs(name) VALUES("América");
+
+// users
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Jorge Cervantes", "jorgec", "jorgec@email.com", "", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Alfredo Talaver", "alfredot", "alfredot@email.com", "", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Johan Vazquez", "johanv", "johanv@email.com", "", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Nicolas Freire", "nicolasf", "nicolas@email.com", "", false, NOW());
+
+// roles
+INSERT INTO roles(name) VALUES("ROLE_ADMIN");
+INSERT INTO roles(name) VALUES("ROLE_USER");
+
+// users_roles
+INSERT INTO users_roles(user_id, roles_id) VALUES(1, 1);
+INSERT INTO users_roles(user_id, roles_id) VALUES(2, 1);
+INSERT INTO users_roles(user_id, roles_id) VALUES(3, 1);
+INSERT INTO users_roles(user_id, roles_id) VALUES(3, 2);
+INSERT INTO users_roles(user_id, roles_id) VALUES(4, 2);
