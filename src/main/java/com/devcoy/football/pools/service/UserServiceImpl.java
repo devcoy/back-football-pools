@@ -32,8 +32,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		// Obtenemos el usuario de la DB a través de email
-		User user = this.userRepo.findByUsername(email);
+		/**
+		 * Obtenemos el usuario de la DB a través de email, de igual forma podríamos hacerlo por username
+		 * 
+		 * Pero de lado del front, en el body siempre enviaremos username
+		 */
+		User user = this.userRepo.findByEmail(email);
 
 		if (user == null) {
 			logger.error("Error al iniciar sesión, no existe el usuario " + email + " en el sistema");

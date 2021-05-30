@@ -8,7 +8,8 @@ public interface UserRepo extends CrudRepository<User, Long> {
 
 	// El login se hará con base al correo electrónico
 	public User findByEmail(String email);
-	
+
+	// El login se hará con base al username
 	public User findByUsername(String username);
 
 }
