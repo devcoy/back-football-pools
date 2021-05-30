@@ -25,18 +25,18 @@ INSERT INTO clubs(name) VALUES("Chivas");
 INSERT INTO clubs(name) VALUES("América");
 
 // users
-INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Jorge Cervantes", "jorgec", "jorgec@email.com", "", true, NOW());
-INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Alfredo Talaver", "alfredot", "alfredot@email.com", "", true, NOW());
-INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Johan Vazquez", "johanv", "johanv@email.com", "", true, NOW());
-INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Nicolas Freire", "nicolasf", "nicolas@email.com", "", false, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Jorge Cervantes", "jorgec", "jorgec@email.com", "$2a$10$pvbW4eP7XKAKnULruVmL8OoTqqeXJrdSWdHp4FbdjB54hz6r/eRwO", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Alfredo Talaver", "alfredot", "alfredot@email.com", "$2a$10$.YJvTgfU4tEXax0lyc16TuPD9D.SAi3URGPFyKDz/UlduQWlFign6", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Johan Vazquez", "johanv", "johanv@email.com", "$2a$10$Ta2nUP3bWOeIq5Wmf1W2UOzoKNU8JAFpcenCuwzOtH3ThjEl2iBfG", true, NOW());
+INSERT INTO users(fullname, username, email, password, enabled, created_at) VALUES("Nicolas Freire", "nicolasf", "nicolas@email.com", "$2a$10$6i37VDDt2L/cMKTm9iXU0uUCdbe108MzffqqWEu3QyfL8bqP7cL0K", false, NOW());
 
 // roles
 INSERT INTO roles(name) VALUES("ROLE_ADMIN");
 INSERT INTO roles(name) VALUES("ROLE_USER");
 
 // users_roles
-INSERT INTO users_roles(user_id, roles_id) VALUES(1, 1);
-INSERT INTO users_roles(user_id, roles_id) VALUES(2, 1);
-INSERT INTO users_roles(user_id, roles_id) VALUES(3, 1);
-INSERT INTO users_roles(user_id, roles_id) VALUES(3, 2);
-INSERT INTO users_roles(user_id, roles_id) VALUES(4, 2);
+INSERT INTO users_roles(user_id, role_id) VALUES(1, 1);
+INSERT INTO users_roles(user_id, role_id) VALUES(2, 1);
+INSERT INTO users_roles(user_id, role_id) VALUES(3, 1);
+INSERT INTO users_roles(user_id, role_id) VALUES(3, 2);
+INSERT INTO users_roles(user_id, role_id) VALUES(4, 2);
