@@ -54,8 +54,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret(passwordEncoder.encode("12345678")) // cleinte password
 				.scopes("read", "write") // permisos que tendrá el cliente en el backend
 				.authorizedGrantTypes("password", "refresh_token") // auth de usuario por contraseña
-				.accessTokenValiditySeconds(3600) // Caducidad de token
-				.refreshTokenValiditySeconds(3600); // Cada cuanto se va la refrescar
+				.accessTokenValiditySeconds(JwtConfig.JWT_EXPIRATION_TIME) // Caducidad de token
+				.refreshTokenValiditySeconds(JwtConfig.JWT_REFRESH_TIME); // Cada cuanto se va la refrescar
 	}
 
 	@Override
@@ -81,6 +81,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public JwtAccessTokenConverter accessTokenConverter() {
 
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+		
+		// Seteamos el SCRET KEY para firmar los tokens
+		jwtAccessTokenConverter.setSigningKey(JwtConfig.SECRET_KEY_STRING);
+		
 		return jwtAccessTokenConverter;
 	}
 }
