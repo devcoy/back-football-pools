@@ -39,7 +39,7 @@ public class User implements Serializable {
 	 * Al usar una realción ManyToMany se crea una tabla intermedia para relacionar
 	 * ambas Entidades
 	 */
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	// Config de tabla intermedia
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {
 			@UniqueConstraint(columnNames = { "user_id", "role_id" }) })

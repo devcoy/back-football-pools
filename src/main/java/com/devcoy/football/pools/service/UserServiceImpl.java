@@ -31,14 +31,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// Obtenemos el usuario de la DB a través de email
-		User user = this.userRepo.findByEmail(username);
+		User user = this.userRepo.findByUsername(email);
 
 		if (user == null) {
-			logger.error("Error al iniciar sesión, no existe el usuario " + username + " en el sistema");
+			logger.error("Error al iniciar sesión, no existe el usuario " + email + " en el sistema");
 			throw new UsernameNotFoundException(
-					"Error al iniciar sesión, no existe el usuario " + username + " en el sistema");
+					"Error al iniciar sesión, no existe el usuario " + email + " en el sistema");
 		}
 
 		// Obtenemos los Authorities (roles) que tenga asignados el usuario

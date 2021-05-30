@@ -31,34 +31,31 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 
-		// enpoint para generar token
-		security.tokenKeyAccess("permitAll()")
-		// endpoint para válidar y refrescar el token
-		.checkTokenAccess("isAuthenticated()");
+		security.tokenKeyAccess("permitAll()") // enpoint para generar token
+				.checkTokenAccess("isAuthenticated()"); // endpoint para válidar y refrescar el token
 
-		
 	}
 
 	/**
-	 * Permite configurar nuestro clientes (front) que usarán el Backend
-	 * OAuth2 a parte de autenticación por usuario, permite dafinir la apps que lo podrán usar (front)
+	 * Permite configurar nuestro clientes (front) que usarán el Backend OAuth2 a
+	 * parte de autenticación por usuario, permite dafinir la apps que lo podrán
+	 * usar (front)
 	 * 
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
 		/**
-		 * Configuramos como se autenticaran los usuario, existen 3 formas:
-		 * 1. Cliente y contraseña (esta estamos usando)
-		 * 2. Obtener token por redireccionamiento
-		 * 3. Solo con cliente	 
+		 * Configuramos como se autenticaran los usuario, existen 3 formas: 1. Cliente y
+		 * contraseña (esta estamos usando) 2. Obtener token por redireccionamiento 3.
+		 * Solo con cliente
 		 */
 		clients.inMemory().withClient("angularapp") // cleinte user
-		.secret(passwordEncoder.encode("12345678")) // cleinte password
-		.scopes("read", "write") // permisos que tendrá el cliente en el backend
-		.authorizedGrantTypes("password", "refresh_token") // auth de usuario por contraseña
-		.accessTokenValiditySeconds(3600) // Caducidad de token
-		.refreshTokenValiditySeconds(3600); // Cada cuanto se va la refrescar
+				.secret(passwordEncoder.encode("12345678")) // cleinte password
+				.scopes("read", "write") // permisos que tendrá el cliente en el backend
+				.authorizedGrantTypes("password", "refresh_token") // auth de usuario por contraseña
+				.accessTokenValiditySeconds(3600) // Caducidad de token
+				.refreshTokenValiditySeconds(3600); // Cada cuanto se va la refrescar
 	}
 
 	@Override
@@ -69,7 +66,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				// se encargar de manejar datos del user (name, email, id, etc), se recomienda
 				// que sea información no sensible
 				.accessTokenConverter(accessTokenConverter());
-
 	}
 
 	@Bean
@@ -87,5 +83,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
 		return jwtAccessTokenConverter;
 	}
-
 }
