@@ -1,5 +1,7 @@
 package com.devcoy.football.pools.auth;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
@@ -24,6 +27,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	@Qualifier("authenticationManager") // para estár más seguro le indicamos el nombre del @Bean
 	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtInfo jwtInfo;
 
 	/**
 	 * Configurar permisos de nuestros endpoints (autenticación)
@@ -61,11 +67,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
+		// Enlazamos la info de JwtInfo.java a la que ya viene en el token
+		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtInfo, accessTokenConverter()));
+
 		// 1. Registramos el authenticationManager
 		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStorage())
 				// se encargar de manejar datos del user (name, email, id, etc), se recomienda
 				// que sea información no sensible
-				.accessTokenConverter(accessTokenConverter());
+				.accessTokenConverter(accessTokenConverter())
+				// Adjuntas el token con la info ya agregada
+				.tokenEnhancer(tokenEnhancerChain);
 	}
 
 	@Bean
@@ -81,10 +93,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public JwtAccessTokenConverter accessTokenConverter() {
 
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-		
+
 		// Seteamos el SCRET KEY para firmar los tokens
 		jwtAccessTokenConverter.setSigningKey(JwtConfig.SECRET_KEY_STRING);
-		
+
 		return jwtAccessTokenConverter;
 	}
 }
