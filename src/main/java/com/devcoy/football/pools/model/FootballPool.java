@@ -39,7 +39,9 @@ public class FootballPool implements Serializable {
 	 * Un Usuario puede tener MUCHAS Apuestas, Una Apuesta puede tener UN solo
 	 * Usuario
 	 */
-	@ManyToOne
+	@JsonIgnoreProperties(value = { "FootballPools", "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	private Bet bet;

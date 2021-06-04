@@ -14,8 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users")
@@ -49,6 +52,14 @@ public class User implements Serializable {
 
 	@Column(name = "created_at")
 	private Date createdAt;
+
+	/**
+	 * Una Apuesta puede tener solo UN Usuario, Un Usuario puede tener MUCHAS
+	 * Apuestas
+	 */
+	@JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<FootballPool> footballPools;
 
 	public Long getId() {
 		return id;
@@ -112,6 +123,29 @@ public class User implements Serializable {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public List<FootballPool> getFootballPools() {
+		return footballPools;
+	}
+
+	public void setFootballPools(List<FootballPool> footballPools) {
+		this.footballPools.clear();
+		/**
+		 * Por cada Usuario, debemos setear la Apuesta
+		 */
+		this.footballPools.forEach(footballPool -> this.addFootballPool(footballPool));
+		this.footballPools = footballPools;
+	}
+
+	public void addFootballPool(FootballPool footballPool) {
+		this.footballPools.add(footballPool);
+		footballPool.setUser(this);
+	}
+
+	public void removeFootballPool(FootballPool footballPool) {
+		this.footballPools.remove(footballPool);
+		footballPool.setUser(null);
 	}
 
 	/**
