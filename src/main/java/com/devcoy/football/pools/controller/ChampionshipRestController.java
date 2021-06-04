@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,8 @@ public class ChampionshipRestController {
 	@Autowired
 	ChampionshipService championshipService;
 
+	// Definimos los roles que tendrán acceso al endpoint
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping
 	public ResponseEntity<?> index() {
 		List<Championship> championships = this.championshipService.findAll();
