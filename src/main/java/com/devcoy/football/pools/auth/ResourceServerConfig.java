@@ -17,7 +17,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 
 		// Definimos todas las rutas que será públicas, es decir, que no requieren auth
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/club").permitAll()
+		http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/club", "/api/championship/**").permitAll()
+				.antMatchers(HttpMethod.DELETE, "/api/championship/**").permitAll()
 				// cualquier otra ruta y método http necesitará autenticación
 				.anyRequest().authenticated();
 	}
