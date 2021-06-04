@@ -35,7 +35,7 @@ public class Match implements Serializable {
 	 * Una Apuesta puede tener UN solo Partido Un Partido puede tener MUCHAS
 	 * Apuestas
 	 */
-	@JsonIgnoreProperties(value = { "championship" }, allowSetters = true)
+	@JsonIgnoreProperties(value = { "match" }, allowSetters = true)
 	@OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private java.util.List<FootballPool> footballPools;
 
