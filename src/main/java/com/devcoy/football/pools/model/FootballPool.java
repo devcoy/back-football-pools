@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,12 +25,10 @@ public class FootballPool implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	/**
-	 * Un Partido puede tener muchas Apuestas, Una Apuesta puede tener solo UN
-	 * Partido
-	 */
+	// Un Partido puede tener MUCHAS Apuestas,
+	// Una Apuesta puede tener solo UN Partido
 	@JsonIgnoreProperties(value = { "footballPools", "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "match_id")
 	private Match match;
 
@@ -39,12 +36,12 @@ public class FootballPool implements Serializable {
 	 * Un Usuario puede tener MUCHAS Apuestas, Una Apuesta puede tener UN solo
 	 * Usuario
 	 */
-	@JsonIgnoreProperties(value = { "FootballPools", "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties(value = { "footballPools", "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	private Bet bet;
+	private String bet;
 
 	public Long getId() {
 		return id;
@@ -70,11 +67,11 @@ public class FootballPool implements Serializable {
 		this.user = user;
 	}
 
-	public Bet getBet() {
+	public String getBet() {
 		return bet;
 	}
 
-	public void setBet(Bet bet) {
+	public void setBet(String bet) {
 		this.bet = bet;
 	}
 

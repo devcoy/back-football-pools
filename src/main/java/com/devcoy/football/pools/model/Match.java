@@ -31,10 +31,8 @@ public class Match implements Serializable {
 	@JoinColumn(name = "soccer_day_id")
 	private SoccerDay soccerDay;
 
-	/**
-	 * Una Apuesta puede tener UN solo Partido Un Partido puede tener MUCHAS
-	 * Apuestas
-	 */
+	// Una Apuesta puede tener UN solo Partido 
+	// Un Partido puede tener MUCHAS Apuestas
 	@JsonIgnoreProperties(value = { "match" }, allowSetters = true)
 	@OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private java.util.List<FootballPool> footballPools;
