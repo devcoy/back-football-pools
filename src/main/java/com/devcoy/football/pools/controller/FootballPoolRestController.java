@@ -62,10 +62,11 @@ public class FootballPoolRestController {
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody FootballPool footballPool) {
+
 		FootballPool newFootballPool = null;
 
 		try {
-			newFootballPool = this.footballPoolService.save(newFootballPool);
+			newFootballPool = this.footballPoolService.save(footballPool);
 		} catch (DataAccessException e) {
 			return ExceptionResponse.buildHttpResponse(TypeException.DB_EXCEPTION,
 					e.getMessage().concat(": ").toUpperCase().concat(e.getMostSpecificCause().getMessage()));
