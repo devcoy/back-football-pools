@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,6 +29,7 @@ public class FootballPool implements Serializable {
 
 	// Un Partido puede tener MUCHAS Apuestas,
 	// Una Apuesta puede tener solo UN Partido
+	@NotNull
 	@JsonIgnoreProperties(value = { "footballPools", "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "match_id")
@@ -36,11 +39,14 @@ public class FootballPool implements Serializable {
 	 * Un Usuario puede tener MUCHAS Apuestas, Una Apuesta puede tener UN solo
 	 * Usuario
 	 */
+	@NotNull
 	@JsonIgnoreProperties(value = { "footballPools", "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@NotNull
+	@NotEmpty
 	private String bet;
 
 	public Long getId() {
