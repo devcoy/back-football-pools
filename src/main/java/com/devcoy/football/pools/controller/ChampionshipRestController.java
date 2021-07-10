@@ -29,7 +29,7 @@ import com.devcoy.football.pools.response.TypeStatus;
 import com.devcoy.football.pools.service.ChampionshipService;
 
 @RestController
-@RequestMapping("/api/championship")
+@RequestMapping("/api/championship/")
 public class ChampionshipRestController {
 
 	@Autowired
@@ -48,7 +48,7 @@ public class ChampionshipRestController {
 		return HttpResponse.buildHttpResponse(TypeStatus.READED, championships);
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<?> getById(@PathVariable Long id) {
 
 		Optional<Championship> championshipOpt = this.championshipService.findById(id);
@@ -78,7 +78,7 @@ public class ChampionshipRestController {
 		return HttpResponse.buildHttpResponse(TypeStatus.CREATED, newChampionship);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("{id}")
 	public ResponseEntity<?> update(@Valid  @RequestBody Championship championship, BindingResult result, @PathVariable Long id) {
 		Championship updateChampionship = null;
 		Optional<Championship> championshipOpt = this.championshipService.findById(id);
@@ -104,7 +104,7 @@ public class ChampionshipRestController {
 		return HttpResponse.buildHttpResponse(TypeStatus.UPDATED, updateChampionship);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) {
 
 		Optional<Championship> championshipOpt = this.championshipService.findById(id);
