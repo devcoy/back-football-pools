@@ -29,7 +29,7 @@ import com.devcoy.football.pools.response.TypeStatus;
 import com.devcoy.football.pools.service.ChampionshipService;
 
 @RestController
-@RequestMapping("/api/championship/")
+@RequestMapping("api/championship/")
 public class ChampionshipRestController {
 
 	@Autowired
