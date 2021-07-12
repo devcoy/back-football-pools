@@ -15,7 +15,7 @@
 	<name>football-pools</name>
 	<description>Football pools app</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>15</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
